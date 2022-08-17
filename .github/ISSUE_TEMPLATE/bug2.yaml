@@ -1,22 +1,17 @@
 name: Bug Report
 description: File a bug report
 title: "[Bug]: "
-labels: ["bug", "triage"]
+labels: ["bug", "todo"]
 assignees:
-  - octocat
+  - mascheiber
+  - Chris-Bee
+  - AlessandroFornasier
 body:
   - type: markdown
     attributes:
       value: |
         Thanks for taking the time to fill out this bug report!
-  - type: input
-    id: contact
-    attributes:
-      label: Contact Details
-      description: How can we get in touch with you if we need more info?
-      placeholder: ex. email@example.com
-    validations:
-      required: false
+
   - type: textarea
     id: what-happened
     attributes:
@@ -26,37 +21,60 @@ body:
       value: "A bug happened!"
     validations:
       required: true
-  - type: dropdown
-    id: version
+
+  - type: checkboxes
+    id: issue-check
     attributes:
-      label: Version
-      description: What version of our software are you running?
+      label: Is there an existing issue for this?
+      description: Please search to see if an issue already exists for the bug you encountered.
       options:
-        - 1.0.2 (Default)
-        - 1.0.3 (Edge)
+      - label: I have searched the existing issues
+        required: true
+
+  - type: input
+    id: os
+    attributes:
+      label: Operating System
+      description: Which operating system are you using?
+      placeholder: CNS Flight Stack Docker
     validations:
       required: true
-  - type: dropdown
-    id: browsers
+
+  - type: input
+    id: hardware
     attributes:
-      label: What browsers are you seeing the problem on?
-      multiple: true
-      options:
-        - Firefox
-        - Chrome
-        - Safari
-        - Microsoft Edge
+      label: Hardware
+      description: Which hardware are you using?
+      placeholder: RPi4
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Flight Stack Version
+      description: Which version of the flight stack are you using?
+      placeholder: 1.0.0
+    validations:
+      required: true
+
   - type: textarea
     id: logs
     attributes:
       label: Relevant log output
-      description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
+      description: Please copy and paste any relevant log output.
+
+        Tip: This will be automatically formatted into code, so no need for backticks.
       render: shell
-  - type: checkboxes
-    id: terms
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional
     attributes:
-      label: Code of Conduct
-      description: By submitting this issue, you agree to follow our [Code of Conduct](https://example.com)
-      options:
-        - label: I agree to follow this project's Code of Conduct
-          required: true
+      label: Additional Information
+      description: Do you have any additional context about the issue you are seeing (links, references)?
+
+        Tip: You can attach images or log files by clicking this area to highlight it and then dragging files in.
+    validations:
+      required: false
