@@ -57,19 +57,6 @@ body:
     validations:
       required: true
 
-- type: textarea
-  id: reproduce
-  attributes:
-    label: Steps To Reproduce
-    description: Steps to reproduce the bug behavior.
-    placeholder: |
-      1. Hardware switched on...
-      2. Flight Stack started with...
-      3. Execute mission...
-      4. See error...
-  validations:
-    required: false
-
   - type: textarea
     id: logs
     attributes:
