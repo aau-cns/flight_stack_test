@@ -61,7 +61,7 @@ jobs:
       with:
         auth: ${{ secrets.GIST_SECRET }}
         gistID: d4b4eee830e1c61a17ed35ecf413f8d1
-        filename: test.json
+        filename: test_new.json
         label: ${{ matrix.ROS_DISTRO }}
         message: passing
         color: green
