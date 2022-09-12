@@ -55,13 +55,32 @@ jobs:
       working-directory: ${{github.workspace}}/flightstack_cws
       run: /bin/bash -c '. /opt/ros/${{ matrix.ROS_DISTRO }}/setup.bash; catkin build -DCMAKE_BUILD_TYPE=${{ matrix.BUILD_TYPE }};'
 
-    - name: Create Badge
+    - name: Create Badge (success)
       if: success()
       uses: schneegans/dynamic-badges-action@v1.4.0
       with:
         auth: ${{ secrets.GIST_SECRET }}
         gistID: d4b4eee830e1c61a17ed35ecf413f8d1
-        filename: test_new.json
+        filename: build_ros_${{ matrix.ROS_DISTRO }}_${{ matrix.BUILD_TYPE }}.json
         label: ${{ matrix.ROS_DISTRO }}
         message: passing
         color: green
+        namedLogo: ROS
+
+    - name: Create Badge (failure)
+      if: failure()
+      uses: schneegans/dynamic-badges-action@v1.4.0
+      with:
+        auth: ${{ secrets.GIST_SECRET }}
+        gistID: d4b4eee830e1c61a17ed35ecf413f8d1
+        filename: build_ros_${{ matrix.ROS_DISTRO }}_${{ matrix.BUILD_TYPE }}.json
+        label: ${{ matrix.ROS_DISTRO }}
+        message: failure
+        isError: true
+        namedLogo: ROS
+
+  debug_info:
+    runs-on: "ubuntu-latest"
+    steps:
+    - run: echo "event name is: " ${{ github.event_name }}
+    - run: echo "event branch is: " ${{ github.event_branch }} 
