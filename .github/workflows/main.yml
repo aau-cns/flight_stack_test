@@ -60,7 +60,7 @@ jobs:
       uses: schneegans/dynamic-badges-action@v1.4.0
       with:
         auth: ${{ secrets.GIST_SECRET }}
-        gistID: 510ed1a24dd53891658f78cb912dc5a7
+        gistID: d4b4eee830e1c61a17ed35ecf413f8d1
         filename: test.json
         label: ${{ matrix.ROS_DISTRO }}
         message: passing
