@@ -7,7 +7,7 @@ on:
     branches: [ "main", "development"]
 
 jobs:
-  release:
+  ros_ci:
     name: ROS ${{ matrix.ROS_DISTRO }} (${{ matrix.BUILD_TYPE }})
     runs-on: ubuntu-latest
     container: ros:${{ matrix.ROS_DISTRO }}-ros-core
@@ -49,8 +49,19 @@ jobs:
       uses: actions/checkout@v3
       with:
         path: ${{github.workspace}}/flightstack_cws
-        submodules: recursive
+        # submodules: recursive
 
     - name: Build
       working-directory: ${{github.workspace}}/flightstack_cws
       run: /bin/bash -c '. /opt/ros/${{ matrix.ROS_DISTRO }}/setup.bash; catkin build -DCMAKE_BUILD_TYPE=${{ matrix.BUILD_TYPE }};'
+
+    - name: Create Badge
+      if: success()
+      uses: schneegans/dynamic-badges-action@v1.4.0
+      with:
+        auth: ${{ secrets.GIST_SECRET }}
+        gistID: 510ed1a24dd53891658f78cb912dc5a7
+        filename: test.json
+        label: ${{ matrix.ROS_DISTRO }}
+        message: passing
+        color: green
