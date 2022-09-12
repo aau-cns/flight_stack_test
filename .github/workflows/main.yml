@@ -1,0 +1,55 @@
+name: ROS
+
+on:
+  push:
+    branches: [ "main", "development"]
+  pull_request:
+    branches: [ "main", "development"]
+
+jobs:
+  release:
+    name: ROS ${{ matrix.ROS_DISTRO }}
+    runs-on: ubuntu-latest
+    container: ros:noetic-ros-core
+    strategy:
+      fail-fast: false
+      matrix:
+        ROS_DISTRO: [noetic, melodic]
+    steps:
+    - name: Install Dependencies
+      run: >
+           apt update && apt install --no-install-recommends -y
+           git
+           doxygen
+           graphviz
+           build-essential
+           libeigen3-dev
+           libgoogle-glog-dev
+           libgflags-dev
+           libgeographic-dev
+           geographiclib-tools
+           python3-catkin-tools
+           ros-${ROS_VERSION}-dynamic-reconfigure
+           ros-${ROS_VERSION}-eigen-conversions
+           ros-${ROS_VERSION}-tf
+           ros-${ROS_VERSION}-tf2-ros
+           ros-${ROS_VERSION}-tf2-eigen
+           ros-${ROS_VERSION}-mavlink
+           ros-${ROS_VERSION}-nodelet
+           ros-${ROS_VERSION}-geographic-msgs
+           ros-${ROS_VERSION}-angles
+           ros-${ROS_VERSION}-diagnostic-updater
+           ros-${ROS_VERSION}-urdf
+
+    - name: Create Catkin Workspace
+      run: mkdir -p ${{github.workspace}}/flightstack_cws
+
+    - name: Checkout Latest Version
+      uses: actions/checkout@v3
+      with:
+        path: ${{github.workspace}}/flightstack_cws
+        submodules: recursive
+
+    - name: Build
+      working-directory: ${{github.workspace}}/flightstack_cws
+      run: /bin/bash -c '. /opt/ros/${ROS_VERSION}/setup.bash; catkin build -DCMAKE_BUILD_TYPE=Release;'
