@@ -51,8 +51,8 @@ jobs:
     
     - name: Debug Info
       run: >
-           echo "Full Test:   $${{ matrix.ROS_DISTRO == 'kinetic' }}"
-           echo "Full Test:   $${{ matrix.ROS_DISTRO != 'kinetic' }}" 
+           echo "Full Test:   ${{ matrix.ROS_DISTRO == 'kinetic' }}"
+           echo "Full Test:   ${{ matrix.ROS_DISTRO != 'kinetic' }}" 
     
     - name: Install Dependencies
       run: >
@@ -79,13 +79,13 @@ jobs:
            ros-${{ matrix.ROS_DISTRO }}-urdf
            
     - name: Install ROS-dependent dependencies
-      if: $${{ matrix.ROS_DISTRO != 'kinetic' }}
+      if: ${{ matrix.ROS_DISTRO != 'kinetic' }}
       run: >
            apt update && apt install --no-install-recommends -y
            python3-catkin-tools
            
     - name: Install ROS-dependent dependencies
-      if: $${{ matrix.ROS_DISTRO == 'kinetic' }}
+      if: ${{ matrix.ROS_DISTRO == 'kinetic' }}
       run: >
            apt update && apt install --no-install-recommends -y
            python-catkin-tools
