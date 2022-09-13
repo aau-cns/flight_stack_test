@@ -40,7 +40,7 @@ jobs:
       BADGE_CREATION: ${{ github.event_name == 'push' && github.ref == 'refs/head/main' && github.repository_owner == 'aau-cns' }}
     steps:
     - name: Create Badge (running)
-      if: ${BADGE_CREATION}
+      if: ${{ env.BADGE_CREATION }}
       uses: schneegans/dynamic-badges-action@v1.4.0
       with:
         auth: ${{ secrets.GIST_SECRET }}
