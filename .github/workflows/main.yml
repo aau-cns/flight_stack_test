@@ -107,7 +107,7 @@ jobs:
       run: /bin/bash -c '. /opt/ros/${{ matrix.ROS_DISTRO }}/setup.bash; catkin build -DCMAKE_BUILD_TYPE=${{ matrix.BUILD_TYPE }};'
 
     - name: Create Badge (success)
-      if: ${{ success() && ${BADGE_CREATION} }}
+      if: ${{ success() && env.BADGE_CREATION }}
       uses: schneegans/dynamic-badges-action@v1.4.0
       with:
         auth: ${{ secrets.GIST_SECRET }}
@@ -119,7 +119,7 @@ jobs:
         namedLogo: ROS
 
     - name: Create Badge (failure)
-      if: ${{ failure() && ${BADGE_CREATION} }}
+      if: ${{ failure() && env.BADGE_CREATION }}
       uses: schneegans/dynamic-badges-action@v1.4.0
       with:
         auth: ${{ secrets.GIST_SECRET }}
