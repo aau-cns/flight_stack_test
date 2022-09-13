@@ -49,6 +49,11 @@ jobs:
         color: orange
         namedLogo: ROS
     
+    - name: Debug Info
+      run: >
+           echo "Full Test:   $${{ matrix.ROS_DISTRO == 'kinetic' }}"
+           echo "Full Test:   $${{ matrix.ROS_DISTRO != 'kinetic' }}" 
+    
     - name: Install Dependencies
       run: >
            apt update && apt install --no-install-recommends -y
