@@ -36,9 +36,11 @@ jobs:
       matrix:
         ROS_DISTRO: [noetic, melodic, kinetic]
         BUILD_TYPE: [Release, Debug]
+    env:
+      BADGE_CREATION: ${{ github.event_name == 'push' && github.ref == 'refs/head/main' && github.repository_owner == 'aau-cns' }}
     steps:
     - name: Create Badge (running)
-      if: ${{ github.event_name == 'push' && github.ref_name == 'main' }}
+      if: ${{ env.BADGE_CREATION == 'true' }}
       uses: schneegans/dynamic-badges-action@v1.4.0
       with:
         auth: ${{ secrets.GIST_SECRET }}
@@ -51,8 +53,9 @@ jobs:
     
     - name: Debug Info
       run: >
-           echo "Full Test:   ${{ matrix.ROS_DISTRO == 'kinetic' }}"
-           echo "Full Test:   ${{ matrix.ROS_DISTRO != 'kinetic' }}" 
+           echo "Full Test:     ${{ matrix.ROS_DISTRO == 'kinetic' }}"
+           echo "Full Test:     ${{ matrix.ROS_DISTRO != 'kinetic' }}"
+           echo "Badge Creatio: ${BADGE_CREATION}"
     
     - name: Install Dependencies
       run: >
@@ -104,7 +107,7 @@ jobs:
       run: /bin/bash -c '. /opt/ros/${{ matrix.ROS_DISTRO }}/setup.bash; catkin build -DCMAKE_BUILD_TYPE=${{ matrix.BUILD_TYPE }};'
 
     - name: Create Badge (success)
-      if: ${{ success() && github.event_name == 'push' && github.ref_name == 'main' }}
+      if: ${{ success() && env.BADGE_CREATION == 'true' }}
       uses: schneegans/dynamic-badges-action@v1.4.0
       with:
         auth: ${{ secrets.GIST_SECRET }}
@@ -116,7 +119,7 @@ jobs:
         namedLogo: ROS
 
     - name: Create Badge (failure)
-      if: ${{ failure() && github.event_name == 'push' && github.ref_name == 'main' }}
+      if: ${{ failure() && env.BADGE_CREATION == 'true' }}
       uses: schneegans/dynamic-badges-action@v1.4.0
       with:
         auth: ${{ secrets.GIST_SECRET }}
@@ -125,4 +128,16 @@ jobs:
         label: ${{ matrix.ROS_DISTRO }}
         message: failure
         isError: true
+        namedLogo: ROS
+        
+    - name: Create Badge (cancelled)
+      if: ${{ cancelled() && env.BADGE_CREATION == 'true' }}
+      uses: schneegans/dynamic-badges-action@v1.4.0
+      with:
+        auth: ${{ secrets.GIST_SECRET }}
+        gistID: d4b4eee830e1c61a17ed35ecf413f8d1
+        filename: build_ros_${{ matrix.ROS_DISTRO }}_${{ matrix.BUILD_TYPE }}.json
+        label: ${{ matrix.ROS_DISTRO }}
+        message: cancelled
+        color: inactive
         namedLogo: ROS
