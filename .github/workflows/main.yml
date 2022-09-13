@@ -37,7 +37,7 @@ jobs:
         ROS_DISTRO: [noetic, melodic, kinetic]
         BUILD_TYPE: [Release, Debug]
     env:
-      BADGE_CREATION: ${{ github.event_name == 'push' && github.ref == 'refs/head/main' && github.repository_owner == 'aau-cns' }}
+      BADGE_CREATION: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' && github.repository_owner == 'aau-cns' }}
     steps:
     - name: Create Badge (running)
       if: ${{ env.BADGE_CREATION == 'true' }}
@@ -53,8 +53,7 @@ jobs:
     
     - name: Debug Info
       run: >
-           echo "Full Test:     ${{ matrix.ROS_DISTRO == 'kinetic' }}"
-           echo "Full Test:     ${{ matrix.ROS_DISTRO != 'kinetic' }}"
+           echo "Ref:           ${{ github.ref }}"
            echo "Badge Creatio: ${BADGE_CREATION}"
     
     - name: Install Dependencies
