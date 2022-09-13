@@ -130,7 +130,7 @@ jobs:
         namedLogo: ROS
         
     - name: Create Badge (cancelled)
-      if: ${{ always() && cancelled() && env.BADGE_CREATION == 'true' }}
+      if: ${{ cancelled() && env.BADGE_CREATION == 'true' }}
       uses: schneegans/dynamic-badges-action@v1.4.0
       with:
         auth: ${{ secrets.GIST_SECRET }}
