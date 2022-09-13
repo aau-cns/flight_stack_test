@@ -61,7 +61,6 @@ jobs:
            libgflags-dev
            libgeographic-dev
            geographiclib-tools
-           python3-catkin-tools
            ros-${{ matrix.ROS_DISTRO }}-dynamic-reconfigure
            ros-${{ matrix.ROS_DISTRO }}-eigen-conversions
            ros-${{ matrix.ROS_DISTRO }}-tf
@@ -73,6 +72,18 @@ jobs:
            ros-${{ matrix.ROS_DISTRO }}-angles
            ros-${{ matrix.ROS_DISTRO }}-diagnostic-updater
            ros-${{ matrix.ROS_DISTRO }}-urdf
+           
+    - name: Install ROS-dependent dependencies
+      if: $${{ matrix.ROS_DISTRO != 'kinetic' }}
+      run: >
+           apt update && apt install --no-install-recommends -y
+           python3-catkin-tools
+           
+    - name: Install ROS-dependent dependencies
+      if: $${{ matrix.ROS_DISTRO == 'kinetic' }}
+      run: >
+           apt update && apt install --no-install-recommends -y
+           python-catkin-tools
 
     - name: Create Catkin Workspace
       run: mkdir -p ${{github.workspace}}/flightstack_cws
@@ -96,7 +107,7 @@ jobs:
         filename: build_ros_${{ matrix.ROS_DISTRO }}_${{ matrix.BUILD_TYPE }}.json
         label: ${{ matrix.ROS_DISTRO }}
         message: passing
-        color: blue
+        color: green
         namedLogo: ROS
 
     - name: Create Badge (failure)
