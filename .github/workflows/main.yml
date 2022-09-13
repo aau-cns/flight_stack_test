@@ -25,7 +25,7 @@ jobs:
            echo "Branch Test: ${{ github.ref_name == 'main' }}"
     - name: Full Test
       run: >
-           echo "Full Test:   ${{ success() && github.event_name == 'push' && github.ref_name == 'main' }}"
+           echo "Full Test:   ${{ job.status == 'success' && github.event_name == 'push' && github.ref_name == 'main' }}"
    
   ros_ci:
     name: ROS ${{ matrix.ROS_DISTRO }} (${{ matrix.BUILD_TYPE }})
