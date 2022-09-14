@@ -3,8 +3,6 @@ name: Docker Container Build
 on:
   push:
     branches: [ "main", "development" ]
-    paths:
-      - 'docker/**'
 
 jobs:
   build_env:
