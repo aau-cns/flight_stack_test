@@ -1,0 +1,17 @@
+name: Docker Container Build
+
+on:
+  push:
+    branches: [ "main", "development" ]
+    paths:
+      - 'docker/**'
+
+jobs:
+  build_env:
+    name: Build Container ${{ github.ref_name }}
+    runs-on: ubuntu-latest
+    if: false
+    steps:
+    - name: Debug Console
+      run: >
+           echo "Test output"
