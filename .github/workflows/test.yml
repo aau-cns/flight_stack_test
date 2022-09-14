@@ -8,7 +8,7 @@ jobs:
   build_env:
     name: Build Container ${{ github.ref_name }}
     runs-on: ubuntu-latest
-    if: true
+    if: github.repository_owner == 'aau-cns'
     steps:
     - name: Debug Console
       run: >
