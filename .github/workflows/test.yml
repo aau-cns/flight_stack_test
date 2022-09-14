@@ -8,7 +8,7 @@ jobs:
   build_env:
     name: Build Container ${{ github.ref_name }}
     runs-on: ubuntu-latest
-    if: false
+    if: true
     steps:
     - name: Debug Console
       run: >
